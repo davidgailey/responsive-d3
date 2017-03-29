@@ -4,13 +4,14 @@
 	<title>Responsive D3.js</title>
 	<script src="https://d3js.org/d3.v4.js"></script>
 
+	<style type="text/css">
+		rect:hover{
+			fill:yellow;
+		}
+	</style>
+
 </head>
 <body>
-
-
-
-
-
 
 	
 	<script type="text/javascript">
@@ -37,7 +38,7 @@
 					.attr("fill", function(d){
 							if(d > 10){
 								return "red";
-							}else if (d < 5){
+							}else if (d < 10){
 								return "teal";
 							}
 						}
