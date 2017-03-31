@@ -19,21 +19,34 @@
 		var barChart = {
 			w: 300,
 			h: 150,
+			svg: "",
 			padding: 4,
-			dataset: [5,4,10,14,20,25,11,24,22,18,22,9,2,3,1]
-		};
+			dataset: [5,4,10,14,20,25,11,24,22,18,22,9,2,3,1],
+			createSVG: function(){
+				// create svg via d3 and set width and height
+				this.svg = d3.select("body").append("svg")
+					.attr("height", barChart.h)
+					.attr("width", barChart.w);
 
-		var svg = d3.select("body").append("svg")
-			.attr("height", barChart.h)
-			.attr("width", barChart.w);
+				// return this object for chainability
+				return this;
+			},
+			renderData: function(data){
+				var closure = this;
 
-			svg.selectAll("rect")
-				.data(barChart.dataset)
+				// use internal dataset if data parameter is not defined
+				if(typeof data === "undefined"){data = this.dataset;}
+
+				// create rect placeholders and loop through data
+				closure.svg.selectAll("rect")
+				.data(data)
 				.enter()
+
+				// append rects and set position, fill, etc
 				.append("rect")
-					.attr("x",function(d,i){return i*(barChart.w/barChart.dataset.length)})
-					.attr("y", function(d){return barChart.h-(d*4);})
-					.attr("width", barChart.w / barChart.dataset.length - barChart.padding)
+					.attr("x",function(d,i){return i*(closure.w/data.length)})
+					.attr("y", function(d){return closure.h-(d*4);})
+					.attr("width", closure.w / data.length - closure.padding)
 					.attr("height", function(d){return d*4;})
 					.attr("fill", function(d){
 							if(d > 10){
@@ -43,6 +56,20 @@
 							}
 						}
 					);
+
+				// return this object for chainability
+				return this;
+			}
+		};
+
+		// render a bar chart with it's own dataset
+		barChart.createSVG().renderData();
+
+		// render a bar chart with custom dataset
+		barChart.createSVG().renderData([4,13,19,16,22,8]);
+		
+
+			
 
 
 	</script>
