@@ -5,6 +5,9 @@
 	<script src="https://d3js.org/d3.v4.js"></script>
 
 	<style type="text/css">
+		svg {
+			border:1px solid #777;
+		}
 		rect:hover{
 			fill:yellow;
 		}
@@ -87,7 +90,7 @@
 
 		var lineChart = {
 			w: 400,
-			h: 300,
+			h: 250,
 			svg: "",
 			padding: 4,
 			dataset: [
@@ -176,6 +179,111 @@
 				{"month":11, "winPercentage":22},
 				{"month":12, "winPercentage":7}
 			],"purple");
+
+
+		/*
+		                                      _        
+		  ,    __  __,  -/--/- _   ,_  ,_    //  _,_-/-
+		_/_)__(_,_(_/(__/__/__(/__/ (__/_)__(/__(_/_/_ 
+		                              /                
+		                             /    
+		*/  
+
+		var scatterplot = {
+			w: 400,
+			h: 300,
+			svg: "",
+			padding: 4,
+			dataset: [
+				{"month":1, "winPercentage":20},
+				{"month":2, "winPercentage":14},
+				{"month":3, "winPercentage":20},
+				{"month":4, "winPercentage":89},
+				{"month":5, "winPercentage":15},
+				{"month":6, "winPercentage":23},
+				{"month":7, "winPercentage":40},
+				{"month":8, "winPercentage":57},
+				{"month":9, "winPercentage":225},
+				{"month":10, "winPercentage":29},
+				{"month":11, "winPercentage":2},
+				{"month":12, "winPercentage":24},
+				{"month":13, "winPercentage":80},
+				{"month":14, "winPercentage":178},
+				{"month":15, "winPercentage":250},
+				{"month":16, "winPercentage":100},
+				{"month":17, "winPercentage":23},
+				{"month":18, "winPercentage":12}
+			],
+			createSVG: function(){
+				// create svg via d3 and set width and height
+				this.svg = d3.select("body")
+					.append("svg")
+						.attr("height", this.h)
+						.attr("width", this.w);
+
+				// line break after every svg
+				d3.select("body").append("br")
+
+				// return this object for chainability
+				return this;
+			},
+
+			renderData: function(data){
+				var closure = this;
+
+				// use internal dataset if data parameter is not defined
+				if(typeof data === "undefined"){data = this.dataset;}
+
+				// create circle placeholders and loop through data
+				this.svg.selectAll("circle")
+				.data(data)
+				.enter()
+
+				// append circles and set position, fill, etc
+				.append("circle")
+					.attr("cx",function(d){return d.month*19;})
+					.attr("cy", function(d){return (closure.h - d.winPercentage);})
+					.attr("r", function(d){return Math.sqrt(d.winPercentage);})
+					.attr("fill", function(d){
+							if(d.winPercentage > 10 && d.month > 5){
+								return "turquoise";
+							}else{
+								return "teal";
+							}
+						}
+					);
+
+				// return this object for chainability
+				return this;
+			}
+
+		}
+
+		// render a scatterplot with default dataset
+		scatterplot.createSVG().renderData();
+
+		// render a scatterplot with custom dataset
+		scatterplot.createSVG().renderData([
+			{"month":1, "winPercentage":20},
+			{"month":2, "winPercentage":14},
+			{"month":3, "winPercentage":20},
+			{"month":4, "winPercentage":4},
+			{"month":5, "winPercentage":15},
+			{"month":6, "winPercentage":21},
+			{"month":7, "winPercentage":80},
+			{"month":8, "winPercentage":20},
+			{"month":9, "winPercentage":24},
+			{"month":10, "winPercentage":209},
+			{"month":11, "winPercentage":2},
+			{"month":12, "winPercentage":64},
+			{"month":13, "winPercentage":211},
+			{"month":14, "winPercentage":8},
+			{"month":15, "winPercentage":1100},
+			{"month":16, "winPercentage":160},
+			{"month":17, "winPercentage":11},
+			{"month":18, "winPercentage":12}
+		]);
+
 
 	</script>
 </body>
