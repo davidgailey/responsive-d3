@@ -8,8 +8,11 @@
 		svg {
 			border:1px solid #777;
 		}
-		rect:hover{
+		rect:hover, circle:hover {
 			fill:yellow;
+		}
+		path:hover {
+			stroke: rgba(40, 255, 40, .7);
 		}
 	</style>
 
@@ -137,7 +140,7 @@
 				closure.svg.append("path")
 					.attr("d",this.createLine(data))
 					.attr("stroke",color)
-					.attr("stroke-width",2)
+					.attr("stroke-width",4)
 					.attr("fill","none");
 
 				// return this object for chainability
@@ -173,11 +176,11 @@
 				{"month":5, "winPercentage":14},
 				{"month":6, "winPercentage":16},
 				{"month":7, "winPercentage":10},
-				{"month":8, "winPercentage":24},
+				{"month":8, "winPercentage":34},
 				{"month":9, "winPercentage":5},
-				{"month":10, "winPercentage":32},
-				{"month":11, "winPercentage":22},
-				{"month":12, "winPercentage":7}
+				{"month":10, "winPercentage":42},
+				{"month":11, "winPercentage":52},
+				{"month":12, "winPercentage":22}
 			],"purple");
 
 
@@ -255,6 +258,28 @@
 
 				// return this object for chainability
 				return this;
+			},
+
+			labelMakerPro: function(data){
+				var closure = this;
+
+				// use internal dataset if data parameter is not defined
+				if(typeof data === "undefined"){data = this.dataset;}
+
+				// append text elements
+				this.svg.selectAll("text")
+					.data(data)
+					.enter()
+					.append("text")
+
+					// add text attributes
+					.attr("x", function(d){return d.month * 15;})
+					.attr("y", function(d){return closure.h - d.winPercentage})
+					.text(function(d){
+							if(d.winPercentage >= 60){
+								
+							}
+						})
 			}
 
 		}
