@@ -273,19 +273,26 @@
 					.append("text")
 
 					// add text attributes
-					.attr("x", function(d){return d.month * 15;})
+					.attr("x", function(d){return d.month * 19 + 2 + Math.sqrt(d.winPercentage);})
 					.attr("y", function(d){return closure.h - d.winPercentage})
 					.text(function(d){
 							if(d.winPercentage >= 60){
-								
+								return d.winPercentage;
 							}
 						})
+					.attr("font-family","sans-serif")
+					.attr("font-size","12px")
+					.attr("z-index",".1")
+					.attr("fill","black");
+
+				// return this object for chainability
+				return this;
 			}
 
 		}
 
-		// render a scatterplot with default dataset
-		scatterplot.createSVG().renderData();
+		// render a scatterplot with default dataset and add labels
+		scatterplot.createSVG().renderData().labelMakerPro();
 
 		// render a scatterplot with custom dataset
 		scatterplot.createSVG().renderData([
