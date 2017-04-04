@@ -14,6 +14,20 @@
 		path:hover {
 			stroke: rgba(40, 255, 40, .7);
 		}
+
+		div.tooltip {
+			position: absolute;
+			text-align: center;
+			width: 100px;
+			height: 30px;
+			padding: 3px;
+			font: 12px sans-serif;
+			background-color: #008ab8;
+			border: 0px;
+			border-radius: 8px;
+			pointer-events:none;
+			opacity: 0;
+		}
 	</style>
 
 </head>
@@ -237,6 +251,10 @@
 				// use internal dataset if data parameter is not defined
 				if(typeof data === "undefined"){data = this.dataset;}
 
+				//create div for tooltip
+				var div = d3.select("body").append("div")
+					.attr("class","tooltip");
+
 				// create circle placeholders and loop through data
 				this.svg.selectAll("circle")
 				.data(data)
@@ -254,7 +272,22 @@
 								return "teal";
 							}
 						}
-					);
+					)
+
+				// bind events to circles
+				.on("mouseover", function(d){
+					div.transition()
+						.duration(200)
+						.style("opacity",0.9);
+					div.html("<strong>Win Percentage: </strong>" + d.winPercentage)
+						.style("left", (d3.event.pageX) + "px")
+						.style("top", (d3.event.pageY - 30) + "px")
+				})
+				.on("mouseout", function(d){
+					div.transition()
+						.duration(500)
+						.style("opacity",0);
+				})
 
 				// return this object for chainability
 				return this;
@@ -287,7 +320,8 @@
 
 				// return this object for chainability
 				return this;
-			}
+			},
+
 
 		}
 
