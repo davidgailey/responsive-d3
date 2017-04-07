@@ -22,7 +22,7 @@
 			height: 30px;
 			padding: 3px;
 			font: 12px sans-serif;
-			background-color: #008ab8;
+			background-color: #00caff;
 			border: 0px;
 			border-radius: 8px;
 			pointer-events:none;
@@ -51,38 +51,38 @@
 			svg: "",
 			padding: 4,
 			dataset: [
-				{"month":1, "winPercentage":20},
-				{"month":2, "winPercentage":14},
-				{"month":3, "winPercentage":20},
-				{"month":4, "winPercentage":89},
-				{"month":5, "winPercentage":15},
-				{"month":6, "winPercentage":23},
-				{"month":7, "winPercentage":40},
-				{"month":8, "winPercentage":57},
-				{"month":9, "winPercentage":225},
-				{"month":10, "winPercentage":29},
-				{"month":11, "winPercentage":2},
-				{"month":12, "winPercentage":24},
-				{"month":13, "winPercentage":80},
-				{"month":14, "winPercentage":178},
-				{"month":15, "winPercentage":250},
-				{"month":16, "winPercentage":100},
-				{"month":17, "winPercentage":23},
-				{"month":18, "winPercentage":12}
+				{"month":1, "percentage":20},
+				{"month":2, "percentage":14},
+				{"month":3, "percentage":20},
+				{"month":4, "percentage":89},
+				{"month":5, "percentage":15},
+				{"month":6, "percentage":23},
+				{"month":7, "percentage":40},
+				{"month":8, "percentage":57},
+				{"month":9, "percentage":225},
+				{"month":10, "percentage":29},
+				{"month":11, "percentage":2},
+				{"month":12, "percentage":24},
+				{"month":13, "percentage":80},
+				{"month":14, "percentage":178},
+				{"month":15, "percentage":250},
+				{"month":16, "percentage":100},
+				{"month":17, "percentage":23},
+				{"month":18, "percentage":12}
 			],
 			yScale: function(data,value){
 				return (d3.scaleLinear()
-						.domain([0, d3.max(data,function(d){return d.winPercentage;})])
-						.range([this.h,10]))(value);
+						.domain([0, d3.max(data,function(d){return d.percentage;})])
+						.range([this.h-3,20]))(value);
 			},
 			xScale: function(data,value){
 				return (d3.scaleLinear()
 						.domain([0, d3.max(data,function(d){return d.month;})])
-						.range([0,this.w-8]))(value);
+						.range([0,this.w-20]))(value);
 			},
 			rScale: function(data,value){
 				return (d3.scaleLinear()
-						.domain([0, d3.max(data,function(d){return d.winPercentage;})])
+						.domain([0, d3.max(data,function(d){return d.percentage;})])
 						.range([2,14]))(value);
 			},
 			createSVG: function(){
@@ -117,10 +117,10 @@
 				// append circles and set position, fill, etc
 				.append("circle")
 					.attr("cx",function(d){return closure.xScale(data,d.month);})
-					.attr("cy", function(d){return closure.yScale(data,d.winPercentage);})
-					.attr("r", function(d){return closure.rScale(data,d.winPercentage);})
+					.attr("cy", function(d){return closure.yScale(data,d.percentage);})
+					.attr("r", function(d){return closure.rScale(data,d.percentage);})
 					.attr("fill", function(d){
-							if(d.winPercentage > 10 && d.month > 5){
+							if(d.percentage > 100 && d.month > 5){
 								return "turquoise";
 							}else{
 								return "teal";
@@ -133,7 +133,7 @@
 					div.transition()
 						.duration(200)
 						.style("opacity",0.9);
-					div.html("<strong>Win Percentage: </strong>" + d.winPercentage)
+					div.html("<strong>Win Percentage: </strong>" + d.percentage)
 						.style("left", (d3.event.pageX) + "px")
 						.style("top", (d3.event.pageY - 30) + "px")
 				})
@@ -160,17 +160,17 @@
 					.append("text")
 
 					// add text attributes
-					.attr("x", function(d){return closure.xScale(data,d.month) + closure.rScale(data,d.winPercentage) + 3;})
-					.attr("y", function(d){closure.yScale(data,d.winPercentage)})
+					.attr("x", function(d){return closure.xScale(data,d.month) + closure.rScale(data,d.percentage) + 3;})
+					.attr("y", function(d){closure.yScale(data,d.percentage)})
 					.text(function(d){
-							if(d.winPercentage >= 60){
-								return d.winPercentage;
+							if(d.percentage >= 60){
+								return d.percentage;
 							}
 						})
 					.attr("font-family","sans-serif")
 					.attr("font-size","12px")
 					.attr("z-index",".1")
-					.attr("fill","black");
+					.attr("fill","white");
 
 				// return this object for chainability
 				return this;
@@ -184,24 +184,24 @@
 
 		// render a scatterplot with custom dataset
 		scatterplot.createSVG().renderData([
-			{"month":1, "winPercentage":20},
-			{"month":2, "winPercentage":14},
-			{"month":3, "winPercentage":20},
-			{"month":4, "winPercentage":4},
-			{"month":5, "winPercentage":15},
-			{"month":6, "winPercentage":21},
-			{"month":7, "winPercentage":80},
-			{"month":8, "winPercentage":20},
-			{"month":9, "winPercentage":24},
-			{"month":10, "winPercentage":209},
-			{"month":11, "winPercentage":2},
-			{"month":12, "winPercentage":64},
-			{"month":13, "winPercentage":211},
-			{"month":14, "winPercentage":8},
-			{"month":15, "winPercentage":1100},
-			{"month":16, "winPercentage":160},
-			{"month":17, "winPercentage":11},
-			{"month":18, "winPercentage":12}
+			{"month":1, "percentage":20},
+			{"month":2, "percentage":14},
+			{"month":3, "percentage":820},
+			{"month":4, "percentage":4},
+			{"month":5, "percentage":775},
+			{"month":6, "percentage":21},
+			{"month":7, "percentage":80},
+			{"month":8, "percentage":920},
+			{"month":9, "percentage":24},
+			{"month":10, "percentage":209},
+			{"month":11, "percentage":2},
+			{"month":12, "percentage":364},
+			{"month":13, "percentage":211},
+			{"month":14, "percentage":8},
+			{"month":15, "percentage":1100},
+			{"month":16, "percentage":160},
+			{"month":17, "percentage":111},
+			{"month":18, "percentage":532}
 		]);
 
 
