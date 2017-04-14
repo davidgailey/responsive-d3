@@ -46,10 +46,12 @@
 		*/  
 
 		var scatterplot = {
-			w: 400,
-			h: 300,
+			w: 500,
+			h: 350,
 			svg: "",
 			padding: 4,
+			xAxisPadding: 20,
+			yAxisPadding: 30,
 			dataset: [
 				{"month":1, "percentage":20},
 				{"month":2, "percentage":14},
@@ -71,19 +73,47 @@
 				{"month":18, "percentage":12}
 			],
 			yScale: function(data,value){
-				return (d3.scaleLinear()
+				var scale = d3.scaleLinear()
 						.domain([0, d3.max(data,function(d){return d.percentage;})])
-						.range([this.h-20,20]))(value);
+						.range([this.h-20,20]);
+				if(typeof value === "undefined"){
+					return scale;
+				}else{
+					return (scale)(value);
+				}
 			},
 			xScale: function(data,value){
-				return (d3.scaleLinear()
+				var scale = d3.scaleLinear()
 						.domain([0, d3.max(data,function(d){return d.month;})])
-						.range([20,this.w-20]))(value);
+						.range([40,this.w-20])
+				if(typeof value === "undefined"){
+					return scale;
+				}else{
+					return (scale)(value);
+				}
+
+				
 			},
 			rScale: function(data,value){
 				return (d3.scaleLinear()
 						.domain([0, d3.max(data,function(d){return d.percentage;})])
 						.range([2,14]))(value);
+			},
+			xAxis: function(data){return d3.axisBottom(this.xScale(data)).ticks(5)},
+			yAxis: function(data){return d3.axisLeft(this.yScale(data)).ticks(5)},
+			appendAxes: function(data){
+				//xaxis
+				this.svg.append("g")
+					.attr("class","axis")
+					.attr("transform","translate(0," + (this.h-this.xAxisPadding) + ")")
+					.call(this.xAxis(data));
+
+				//yaxis
+				this.svg.append("g")
+					.attr("class","axis")
+					.attr("transform","translate(" + (this.yAxisPadding + 10) + ", 0)")
+					.call(this.yAxis(data));
+
 			},
 			createSVG: function(){
 				// create svg via d3 and set width and height
@@ -141,7 +171,10 @@
 					div.transition()
 						.duration(500)
 						.style("opacity",0);
-				})
+				});
+
+				// render axes
+				this.appendAxes(data);
 
 				// return this object for chainability
 				return this;
